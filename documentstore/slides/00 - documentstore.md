@@ -3,7 +3,7 @@
 - NoSQL database concept
 - Subclass of key-value stores
 - In a key-value store, the data is considered to be inherently opaque to the database.
-- In document stores, the value is a document, on which the system can extract metadata that the database engine uses for further optimization. For example GPS coordinates for geospatial queries.
+- In document stores, the value is a document, on which the system can extract metadata that the database engine uses for further optimization.
 - The values of fields may include other documents, arrays, and arrays of documents.
 
 ## Advantages of using documents
