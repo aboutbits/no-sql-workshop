@@ -13,3 +13,14 @@
 - Constant time for relationship queries
 - Flexible schema
 - Adding new relationships should be easy
+
+## Example Friend Graph
+
+- person: nodes
+- friends_with: relationship
+
+For a graph database it is very easy to answer questions like:
+
+What are my friends friends?
+
+And even more levels deep. With a RDBMS we would have to solve this by joining the table again and again.
