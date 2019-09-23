@@ -4,14 +4,34 @@
 - relationships
 - properties
 - labels
+- **Describe the model in terms of application needs**
+
+![Sample Model](graph_model.png)
 
 ## Nodes
 
-- Contain properties
-- Are documents that store properties in
-the form of arbitrary key-value pairs. Similar to a document store.
-- Nodes can be labeled. Labels group nodes together, and indicate the roles they play within the dataset.
+- Contain properties, which are entity attributes and metadata, such as timestamps, version numbers
+- Are documents that store properties in the form of arbitrary key-value pairs. Similar to a document store.
+- Nodes can be labeled. Labels group nodes together, and indicate the roles they play within the dataset. e.g. electric vs gas-powered cars
 
+### Model facts as nodes
+
+- Represent the outcome of an interaction between two nodes as a node
+- Act of Alistair reviewing a film can be represented in the
+graph.
+
+![Model facts - Moview review](model_facts.png)
+
+- Multi-property fields, such as review make sense to represented as a node.
+
+### Property vs label
+
+- Nodes can have properties or labels to describe an entity
+- A car has has a model, a brand, a price, available colors,...
+- Model your graph depending on your applications questions?
+- available colors => property (not likely to be queried)
+- Model -> could be represented as a label, as you might want to answer many questions about the model.
+- Properties take less space to save, but are a bit slower to query for.
 
 ## Relationships
 
@@ -19,6 +39,14 @@ the form of arbitrary key-value pairs. Similar to a document store.
 - No dangling relationships
 - A relationship has a direction and a name.
 - A relationship can have properties as well. Especially important for graph traversal algorithms. (e.g. distance between two cities)
+
+### Fine grained vs. general relationships
+
+- DELIVERY_ADDRESS and HOME_ADDRESS versus ADDRESS {type:'delivery'} and ADDRESS {type:'home'}
+- Reduce the lookup size by specific relationship names
+- Property value lookup adds extra IO
+- Properties work well to define weights (e.g. distance between two cities)
+- It is also possible to have more relationships at the same time like DELIVERY_ADDRESS and ADDRESS {type:'delivery'}
 
 ## Storage
 
