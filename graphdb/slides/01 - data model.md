@@ -20,7 +20,7 @@
 - Act of Alistair reviewing a film can be represented in the
 graph.
 
-![Model facts - Moview review](model_facts.png)
+![Model facts - Movie review](model_facts.png)
 
 - Multi-property fields, such as review make sense to represented as a node.
 
