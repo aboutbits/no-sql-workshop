@@ -16,4 +16,5 @@ Open `localhost:7474` in your browser
 
 7. Find people that live in the area where company "Koss Group" is located and have the necessary skill that the company is looking for.
 
+8. For all companies, what are the number of people that live in the same city and have the necessary skills.
 

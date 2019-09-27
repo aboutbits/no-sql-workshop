@@ -43,5 +43,11 @@ MATCH (c:Company {name:"Koss Group"})-[:LOOKS_FOR_COMPETENCE]->(:Skill)<-[:HAS]-
 RETURN p
 ```
 
+8. For all companies, what are the number of people that live in the same city and have the necessary skills.
+
+```
+MATCH (c:Company)-[:LOOKS_FOR_COMPETENCE]->(:Skill)<-[:HAS]-(p:Person)-[:LIVES_IN]->(:Country)<-[:LOCATED_IN]-(c)
+RETURN c, count(p)
+```
 
 
