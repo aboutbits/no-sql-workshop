@@ -24,15 +24,14 @@ docker-compose up --build
 ## Import the dataset
 
 ```
-docker-compose run --rm mongo mongoimport --host mongo -d workshop -c trees --type csv --file /tmp/data/Trees.csv --headerline
+docker-compose run --rm mongo mongoimport --host workshop_mongo -d workshop -c trees --type csv --file /tmp/data/Trees.csv --headerline
 ```
 
-## MongoDB Compass
+## Web UI
 
-GUI to visualize your data in your MongoDB cluster. There are also other options like Robomongo, which are also great for inspecting your data.
+`http://localhost:8888/`
 
-Please download and install the community version on your local machine.
+## Desktop UI
 
-https://www.mongodb.com/download-center/compass
-
-Connect to local mongodb instance. Keep all the defaults and **CONNECT**.
+MongoDB Compass or Robo 3T.
+I personally like Robo 3T.

@@ -46,7 +46,7 @@ db.trees.update(
 )
 ```
 
-5.1 Find all trees within a radius of 10 meters
+5.1 Find all trees within a radius of 50 meters
 
 
 First we need an index to make $near queries.
@@ -63,7 +63,7 @@ db.trees.find(
           {
             $geometry: { type: "Point",  coordinates: [ -122.318951977075, 47.649140795159 ] },
             $minDistance: 0,
-            $maxDistance: 10
+            $maxDistance: 50
           }
        }
        }
