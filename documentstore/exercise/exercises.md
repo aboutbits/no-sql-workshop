@@ -28,8 +28,46 @@
     This command will create an index on the _OBJECTID_ field, with ascending order.
     Try to execute the query from listing 2 again. Can see any difference?
 
-4. Query nested document
+5. Spatial data
 
-5. Spatial query with index
+Lets prepare the data. Currently X and Y are just values as any other value in the document. We have to let MongoDB know that these are special coordinates.
 
-6. Full text query with index
+Therefore we need to transform the data and change the schema.
+
+```
+{ type: "Point", coordinates: [ 40, 5 ] }
+```
+
+```
+db.trees.update(
+  {},
+  [{ $set: { loc: { type: "Point", coordinates: [ "$X", "$Y" ] } } }],
+  { multi: true }
+)
+```
+
+5.1 Find all trees within a radius of 10 meters
+
+
+First we need an index to make $near queries.
+
+```
+db.trees.createIndex({loc:"2dsphere"});
+```
+
+```
+db.trees.find(
+   {
+       loc:
+       { $near :
+          {
+            $geometry: { type: "Point",  coordinates: [ -122.318951977075, 47.649140795159 ] },
+            $minDistance: 0,
+            $maxDistance: 10
+          }
+       }
+       }
+   )
+```
+
+6. Aggregation pipeline
