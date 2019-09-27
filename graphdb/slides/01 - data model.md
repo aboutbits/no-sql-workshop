@@ -1,7 +1,7 @@
 # Labeled Property Graph Model
 
 - nodes
-- relationships
+- directed relationships
 - properties
 - labels
 - **Describe the model in terms of application needs**
