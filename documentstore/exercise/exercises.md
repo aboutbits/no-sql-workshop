@@ -73,3 +73,110 @@ db.trees.find(
 It should have 11 trees in the result.
 
 6. Aggregation pipeline
+
+    1. Get the number of trees per "BOTANICAL NAME"
+
+```
+db.trees.aggregate([
+  {
+    $group: {
+      _id: "$BOTANICAL_NAME",
+      numberOfTrees: { $sum: 1 }
+    }   
+}
+]);
+```
+
+    2. Sort the above result by the number of trees in descending order
+
+```
+db.trees.aggregate([
+    {
+        $group: {
+        _id: "$BOTANICAL_NAME",
+        numberOfTrees: { $sum: 1 },
+        }   
+    },
+    {
+        $sort: { numberOfTrees: -1 },
+    }
+]);
+```
+
+    3. Calculate the average CONDITION_RATING per group
+
+```
+db.trees.aggregate([
+    {
+        $group: {
+        _id: "$BOTANICAL_NAME",
+        numberOfTrees: { $sum: 1 },
+        averageConditionalRating: { $avg: "$CONDITION_RATING"}
+        }   
+    },
+    {
+        $sort: { numberOfTrees: -1 },
+    }
+]);
+```
+
+    4. Within every group of BOTANITCAL_NAME find the number of trees per CONDITIONAL_RATING
+
+```
+db.trees.aggregate([
+  {
+    $group: {
+      _id: {
+        botanicalName: "$BOTANICAL_NAME",
+        conditionRating: "$CONDITION_RATING"
+      },
+      numberOfTrees: { $sum: 1 }
+    }
+  }
+]);
+```
+
+    5. Define the percentage of trees per CONDITION_RATING for the BOTANICAL_NAME: "PAPE".
+
+    conditionRating: 2, ratio: 0.018796992481203
+    conditionRating: 4: ratio: 0.759398496240602
+    ...
+
+
+```
+db.trees.aggregate([
+  {
+    $match: { BOTANICAL_NAME: "PAPE", CONDITION_RATING: { $ne: "" } }
+  },
+  {
+    $group: {
+      _id: {
+        botanicalName: "$BOTANICAL_NAME",
+        conditionRating: "$CONDITION_RATING"
+      },
+      numberOfTrees: { $sum: 1 }
+    }
+  },
+  {
+    $group: {
+      _id: "$botanicalName",
+      keys: { $push: "$_id" },
+      summedTrees: { $push: "$numberOfTrees" },
+      total: { $sum: "$numberOfTrees" }
+    }
+  },
+  {
+    $project: {
+      keys: "$keys",
+      summedTrees: "$summedTrees",
+      percentages: {
+        $map: {
+          input: "$summedTrees",
+          as: "s",
+          in: { $divide: ["$$s", "$total"] }
+        }
+      }
+    }
+  }
+]);
+```
