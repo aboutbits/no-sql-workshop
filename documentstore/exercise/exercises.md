@@ -70,4 +70,6 @@ db.trees.find(
    )
 ```
 
+It should have 11 trees in the result.
+
 6. Aggregation pipeline
