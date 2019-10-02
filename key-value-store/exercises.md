@@ -1,17 +1,5 @@
 # Exercises
 
-## Set up
-
-Start the containers by executing the following command inside the current directory:
-
-```bash
-docker-compose up --build
-```
-
-You can access the Web UI using this URL: [http://localhost:8888/](http://localhost:8888/).
-
-Most of the following exercises can be done directly using the Web UI.
-
 ## Exercise 1 - Basic commands
 
 Try to create, read, update and delete a string value in the Redis database. Play around with the basic commands and try to get used to them.
@@ -89,11 +77,3 @@ Try to find the commands to perform the following hashes operations:
 Implement two applications that communicate with each other using Redis with the publish and subscribe commands. You are free to use your programming language of choice.
 
 The Redis server can be accessed on `localhost:6379`.
-
-## Tear down
-
-Stop the containers by executing the following command inside the current directory:
-
-```bash
-docker-compose down
-```
