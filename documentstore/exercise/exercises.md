@@ -46,35 +46,15 @@ db.trees.update(
 )
 ```
 
-5.1 Find all trees within a radius of 50 meters
+5.1 Find all trees within a radius of 50 meters for these coordinates: [ -122.318951977075, 47.649140795159 ]
 
+Hint: 
+- we need an index to make $near queries
+- it should have 11 trees in the result.
 
-First we need an index to make $near queries.
+## 6. Aggregation pipeline
 
-```
-db.trees.createIndex({loc:"2dsphere"});
-```
-
-```
-db.trees.find(
-   {
-       loc:
-       { $near :
-          {
-            $geometry: { type: "Point",  coordinates: [ -122.318951977075, 47.649140795159 ] },
-            $minDistance: 0,
-            $maxDistance: 50
-          }
-       }
-       }
-   )
-```
-
-It should have 11 trees in the result.
-
-6. Aggregation pipeline
-
-    1. Get the number of trees per "BOTANICAL NAME"
+  1. Get the number of trees per "BOTANICAL NAME"
 
 ```
 db.trees.aggregate([
@@ -87,96 +67,14 @@ db.trees.aggregate([
 ]);
 ```
 
-    2. Sort the above result by the number of trees in descending order
+  2. Sort the above result by the number of trees in descending order
 
-```
-db.trees.aggregate([
-    {
-        $group: {
-        _id: "$BOTANICAL_NAME",
-        numberOfTrees: { $sum: 1 },
-        }   
-    },
-    {
-        $sort: { numberOfTrees: -1 },
-    }
-]);
-```
+  3. Calculate the average CONDITION_RATING per group
 
-    3. Calculate the average CONDITION_RATING per group
+  4. Within every group of BOTANITCAL_NAME find the number of trees per CONDITIONAL_RATING
 
-```
-db.trees.aggregate([
-    {
-        $group: {
-        _id: "$BOTANICAL_NAME",
-        numberOfTrees: { $sum: 1 },
-        averageConditionalRating: { $avg: "$CONDITION_RATING"}
-        }   
-    },
-    {
-        $sort: { numberOfTrees: -1 },
-    }
-]);
-```
+  5. Define the percentage of trees per CONDITION_RATING for the BOTANICAL_NAME: "PAPE".
 
-    4. Within every group of BOTANITCAL_NAME find the number of trees per CONDITIONAL_RATING
-
-```
-db.trees.aggregate([
-  {
-    $group: {
-      _id: {
-        botanicalName: "$BOTANICAL_NAME",
-        conditionRating: "$CONDITION_RATING"
-      },
-      numberOfTrees: { $sum: 1 }
-    }
-  }
-]);
-```
-
-    5. Define the percentage of trees per CONDITION_RATING for the BOTANICAL_NAME: "PAPE".
-
-    conditionRating: 2, ratio: 0.018796992481203
-    conditionRating: 4: ratio: 0.759398496240602
-    ...
-
-
-```
-db.trees.aggregate([
-  {
-    $match: { BOTANICAL_NAME: "PAPE", CONDITION_RATING: { $ne: "" } }
-  },
-  {
-    $group: {
-      _id: {
-        botanicalName: "$BOTANICAL_NAME",
-        conditionRating: "$CONDITION_RATING"
-      },
-      numberOfTrees: { $sum: 1 }
-    }
-  },
-  {
-    $group: {
-      _id: "$botanicalName",
-      keys: { $push: "$_id" },
-      summedTrees: { $push: "$numberOfTrees" },
-      total: { $sum: "$numberOfTrees" }
-    }
-  },
-  {
-    $project: {
-      keys: "$keys",
-      summedTrees: "$summedTrees",
-      percentages: {
-        $map: {
-          input: "$summedTrees",
-          as: "s",
-          in: { $divide: ["$$s", "$total"] }
-        }
-      }
-    }
-  }
-]);
-```
+  conditionRating: 2, ratio: 0.018796992481203
+  conditionRating: 4: ratio: 0.759398496240602
+  ...
