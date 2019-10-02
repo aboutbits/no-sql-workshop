@@ -4,7 +4,7 @@
 
     ```javascript
     db.getCollection('trees').find({
-        _id: ObjectId("5d7ba48752129b84dd9f8674")
+        "_id": ObjectId("5d94cf4bb5ec8851bffc9468")
     })
     ```
 
@@ -14,7 +14,7 @@
 
     ```javascript
     db.getCollection('trees').find({
-        OBJECTID: 1004
+        "OBJECTID": 1004
     })
     ```
 
@@ -23,7 +23,7 @@
 3. Why is the first one slower than the second one and how can we fix this? Create an index.
 
     ```javascript
-    db.trees.createIndex( { OBJECTID: 1 } )
+    db.trees.createIndex( { "OBJECTID": 1 } )
     ```
     This command will create an index on the _OBJECTID_ field, with ascending order.
     Try to execute the query from listing 2 again. Can see any difference?
