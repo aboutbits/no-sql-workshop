@@ -1,7 +1,8 @@
+# Graph database - Neo4j
+
 ## Docker - Setup
 
 `docker-compose up --build`
-
 
 ## Discovery
 

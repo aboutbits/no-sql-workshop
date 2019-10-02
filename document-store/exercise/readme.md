@@ -1,4 +1,4 @@
-### Documentstore - MongoDB
+# Document store - MongoDB
 
 ## Setup of MongoDB
 
