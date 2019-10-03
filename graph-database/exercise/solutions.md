@@ -1,4 +1,4 @@
-3. Find the company with the name "Kross Group" and explore the linked data by using the UI.
+3. Find the company with the name "Koss Group" and explore the linked data by using the UI.
 
 ```
 MATCH (c:Company {name:"Koss Group"}) RETURN c

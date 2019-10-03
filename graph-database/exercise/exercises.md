@@ -4,7 +4,7 @@ Open `localhost:7474` in your browser
 
 2. List all Companies, Countries, Persons, Skills
 
-3. Find the company with the name "Kross Group" and explore the linked data by using the UI.
+3. Find the company with the name "Koss Group" and explore the linked data by using the UI.
 
 4. Find all companies that are looking for people with "REBOL" skill.
 4.1 Calculate the count of companies that are looking for people with "REBOL" skill.
